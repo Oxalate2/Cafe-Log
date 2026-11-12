@@ -1,0 +1,50 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>Cafe Log</title>
+  <meta name="theme-color" content="#f9c6d3">
+  <link rel="manifest" href="manifest.webmanifest">
+  <link rel="icon" href="icons/icon-192.png">
+  <link rel="apple-touch-icon" href="icons/icon-180.png">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-title" content="Cafe Log">
+  <meta name="apple-mobile-web-app-status-bar-style" content="default">
+  <meta name="mobile-web-app-capable" content="yes">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Abril+Fatface&family=Anton&family=Bungee&family=Caveat:wght@500;700&family=Covered+By+Your+Grace&family=Permanent+Marker&family=Special+Elite&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div id="app">
+    <header id="topbar"></header>
+    <main id="stage"><div id="book"></div></main>
+    <section id="decor" hidden></section>
+    <footer id="pager"></footer>
+  </div>
+
+  <section id="contents" class="sheet" hidden>
+    <div class="sheet-head">
+      <div class="ransom sheet-title" id="contents-title"></div>
+      <button class="btn" data-act="close-contents">close</button>
+    </div>
+    <input id="search" class="search" type="search" placeholder="search cafe, city or drink" autocomplete="off">
+    <div id="list" class="list"></div>
+    <div class="sheet-foot">
+      <button class="btn small" data-act="export">save backup</button>
+      <button class="btn small" data-act="import">restore backup</button>
+    </div>
+  </section>
+
+  <input id="photo-input" type="file" accept="image/*" multiple hidden>
+  <input id="cover-photo-input" type="file" accept="image/*" hidden>
+  <input id="import-input" type="file" accept="application/json,.json" hidden>
+
+  <script src="js/store.js"></script>
+  <script src="js/ransom.js"></script>
+  <script src="js/stickers.js"></script>
+  <script src="js/app.js"></script>
+</body>
+</html>

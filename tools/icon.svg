@@ -1,0 +1,74 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="512" height="512">
+  <!-- Cafe Log app icon: a coffee mug and a matcha mug clinking "cheers".
+       Edit this file, then run:  powershell -File tools/render-icon.ps1 -->
+  <defs>
+    <pattern id="dots" width="22" height="22" patternUnits="userSpaceOnUse">
+      <circle cx="11" cy="11" r="2.2" fill="#fff" opacity=".45"/>
+    </pattern>
+    <!-- one mug, centred on its body; handle on the left -->
+    <g id="mug-body">
+      <path d="M-74,40 C-128,44 -128,-44 -74,-40" fill="none" stroke="#3b302b" stroke-width="30" stroke-linecap="round"/>
+      <path d="M-74,40 C-128,44 -128,-44 -74,-40" fill="none" style="stroke:var(--mug)" stroke-width="15" stroke-linecap="round"/>
+      <path d="M-80,-80 L80,-80 L69,76 Q67,92 51,92 L-51,92 Q-67,92 -69,76 Z" style="fill:var(--mug)" stroke="#3b302b" stroke-width="9" stroke-linejoin="round"/>
+      <path d="M-62,-56 L-56,64" stroke="#fff" stroke-width="9" stroke-linecap="round" opacity=".6"/>
+      <ellipse cx="0" cy="-80" rx="80" ry="19" style="fill:var(--drink)" stroke="#3b302b" stroke-width="9"/>
+    </g>
+  </defs>
+
+  <rect width="512" height="512" fill="#f9c6d3"/>
+  <rect width="512" height="512" fill="url(#dots)"/>
+
+  <!-- little sparkles in the background -->
+  <g fill="#fdfbf5" stroke="#3b302b" stroke-width="5" stroke-linejoin="round">
+    <path d="M104,118 l9,22 22,9 -22,9 -9,22 -9,-22 -22,-9 22,-9z"/>
+    <path d="M410,112 l7,17 17,7 -17,7 -7,17 -7,-17 -17,-7 17,-7z"/>
+    <path d="M420,402 l6,14 14,6 -14,6 -6,14 -6,-14 -14,-6 14,-6z"/>
+  </g>
+
+  <!-- soft shadow under the mugs -->
+  <ellipse cx="256" cy="420" rx="150" ry="16" fill="#3b302b" opacity=".14"/>
+
+  <!-- clink lines -->
+  <g stroke="#3b302b" stroke-width="9" stroke-linecap="round">
+    <path d="M256,150 L256,120"/>
+    <path d="M226,158 L208,134"/>
+    <path d="M286,158 L304,134"/>
+  </g>
+
+  <!-- splashes where they meet: coffee on the left, matcha on the right -->
+  <g stroke="#3b302b" stroke-width="6">
+    <path d="M232,196 q-14,-18 -2,-34 q14,16 2,34z" fill="#9c6644"/>
+    <circle cx="214" cy="176" r="8" fill="#9c6644"/>
+    <path d="M280,196 q14,-18 2,-34 q-14,16 -2,34z" fill="#8fbf6a"/>
+    <circle cx="298" cy="176" r="8" fill="#8fbf6a"/>
+  </g>
+
+  <!-- coffee mug (left, handle out to the left), tipped toward the middle -->
+  <g transform="translate(204 312) rotate(-14) scale(.9)" style="--mug:#fdfbf5; --drink:#9c6644">
+    <use href="#mug-body"/>
+    <!-- latte-art heart in the foam -->
+    <ellipse cx="0" cy="-80" rx="52" ry="11" fill="#e8c9a6"/>
+    <path d="M0,-73 C-6,-78 -18,-80 -18,-86 C-18,-91 -8,-92 0,-86 C8,-92 18,-91 18,-86 C18,-80 6,-78 0,-73z" fill="#fdfbf5"/>
+    <!-- cute face -->
+    <circle cx="-22" cy="4" r="7" fill="#3b302b"/>
+    <circle cx="22" cy="4" r="7" fill="#3b302b"/>
+    <path d="M-10,20 q10,10 20,0" fill="none" stroke="#3b302b" stroke-width="6" stroke-linecap="round"/>
+    <ellipse cx="-40" cy="22" rx="11" ry="7" fill="#f4a9bd"/>
+    <ellipse cx="40" cy="22" rx="11" ry="7" fill="#f4a9bd"/>
+  </g>
+
+  <!-- matcha mug (right, handle out to the right), tipped toward the middle -->
+  <g transform="translate(308 312) rotate(14) scale(-.9 .9)" style="--mug:#c5e6c8; --drink:#8fbf6a">
+    <use href="#mug-body"/>
+    <!-- leaf latte art -->
+    <ellipse cx="0" cy="-80" rx="52" ry="11" fill="#b5d98f"/>
+    <path d="M-20,-80 C-8,-90 12,-88 22,-80 C12,-72 -8,-70 -20,-80z" fill="#eef6df"/>
+    <path d="M-16,-80 L18,-80" stroke="#b5d98f" stroke-width="2.5"/>
+    <!-- cute face (mirrored group, so symmetric features only) -->
+    <circle cx="-22" cy="4" r="7" fill="#3b302b"/>
+    <circle cx="22" cy="4" r="7" fill="#3b302b"/>
+    <path d="M-10,20 q10,10 20,0" fill="none" stroke="#3b302b" stroke-width="6" stroke-linecap="round"/>
+    <ellipse cx="-40" cy="22" rx="11" ry="7" fill="#f4a9bd"/>
+    <ellipse cx="40" cy="22" rx="11" ry="7" fill="#f4a9bd"/>
+  </g>
+</svg>
