@@ -1,5 +1,7 @@
 (() => {
   const PASTELS = { pink: '#f9c6d3', white: '#fdfbf5', blue: '#bcdcf5', green: '#c5e6c8', orange: '#fdd3ae' };
+  // star fills: the same pastels, a few shades deeper so a rating stands out on the cream page
+  const STAR_COLORS = { pink: '#f392b0', white: '#ffffff', blue: '#86bce8', green: '#86c991', orange: '#f6a466' };
   const STAR_PATH = 'M12 2.6l2.9 5.9 6.5.9-4.7 4.6 1.1 6.5L12 17.4l-5.8 3.1 1.1-6.5L2.6 9.4l6.5-.9z';
   const MAX_PHOTOS = 3;
   const esc = Ransom.esc;
@@ -98,7 +100,7 @@
   // (only the real photos, no "+ photo" slot or edit fields) so stickers land where you expect
   function pageLeaf(e, editable, placing) {
     const rating = e.rating || 0;
-    const leaf = el(`<div class="leaf page${editable ? ' editing' : ''}${placing ? ' sticker-mode' : ''}" style="--star:${PASTELS[e.starColor] || PASTELS.pink}">
+    const leaf = el(`<div class="leaf page${editable ? ' editing' : ''}${placing ? ' sticker-mode' : ''}" style="--star:${STAR_COLORS[e.starColor] || STAR_COLORS.pink}">
       <div class="row date">
         <span class="tag blue">date</span>
         <span class="hand view-only">${esc(prettyDate(e.date))}</span>
@@ -117,7 +119,7 @@
         <div class="stars" role="slider" aria-label="rating" aria-valuemin="0" aria-valuemax="5" aria-valuenow="${rating}">${starsHtml(rating)}</div>
         <span class="hand rating-num">${rating ? rating : ''}</span>
         <div class="dots edit-only">${Object.keys(PASTELS).map(c =>
-          `<button class="dot${(e.starColor || 'pink') === c ? ' on' : ''}" data-color="${c}" style="background:${PASTELS[c]}" aria-label="${c} stars"></button>`).join('')}</div>
+          `<button class="dot${(e.starColor || 'pink') === c ? ' on' : ''}" data-color="${c}" style="background:${STAR_COLORS[c]}" aria-label="${c} stars"></button>`).join('')}</div>
       </div>
       <div class="row">
         <span class="tag orange">drink</span>
@@ -174,7 +176,7 @@
 
     leaf.querySelectorAll('.dot').forEach(d => d.addEventListener('click', () => {
       draft.starColor = d.dataset.color;
-      leaf.style.setProperty('--star', PASTELS[draft.starColor]);
+      leaf.style.setProperty('--star', STAR_COLORS[draft.starColor]);
       leaf.querySelectorAll('.dot').forEach(x => x.classList.toggle('on', x === d));
     }));
 

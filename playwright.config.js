@@ -15,8 +15,9 @@ module.exports = defineConfig({
   timeout: 45_000,
   expect: {
     timeout: 8_000,
-    // small tolerance for font anti-aliasing; real layout changes are far bigger than this
-    toHaveScreenshot: { maxDiffPixelRatio: 0.01, animations: 'disabled', caret: 'hide' },
+    // Tight on purpose so pastel colour changes are caught: each pixel may shift at most 5% in colour,
+    // and at most 0.01% of the screen may differ (anti-aliasing). Looser settings missed a star-colour change.
+    toHaveScreenshot: { threshold: 0.05, maxDiffPixelRatio: 0.0001, animations: 'disabled', caret: 'hide' },
   },
   snapshotPathTemplate: 'tests/screens/{projectName}/{arg}{ext}',
   fullyParallel: true,
