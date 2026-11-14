@@ -52,6 +52,22 @@ test.describe('opening the journal', () => {
     await expect(page.locator('.page-count')).toHaveText('page 1 of 1');
   });
 
+  test('tapping "+ add a cafe" while the page is still turning is ignored', async ({ page }) => {
+    await open(page);
+    // the blank page underneath already shows its button mid-flip; once the turning page has
+    // swung past, a finger can reach it. Tap it at that moment.
+    await page.evaluate(async () => {
+      document.querySelector('[data-act="next"]').click();
+      await new Promise(r => setTimeout(r, 300));
+      document.querySelector('#book [data-act="new"]').click();
+    });
+    await expect(page.locator('#book .turner')).toHaveCount(0);
+    await expect(page.locator('.page-count')).toHaveText('new page');
+    await expect(act(page, 'save')).toHaveCount(0);            // not stuck editing the cover
+    await act(page, 'new').click();                             // once the flip has landed it works
+    await expect(page.locator('#book .page.editing')).toBeVisible();
+  });
+
   test('arrow buttons flip and stop at the ends', async ({ page }) => {
     await open(page);
     await expect(act(page, 'prev')).toBeDisabled();

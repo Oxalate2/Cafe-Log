@@ -958,6 +958,9 @@
 
   document.addEventListener('click', e => {
     const b = e.target.closest('[data-act]');
+    // ignore taps while a page is turning or being torn out: the buttons on the page underneath
+    // (e.g. "+ add a cafe") are already visible but belong to a page that isn't open yet
+    if (anim) return;
     if (b && actions[b.dataset.act]) actions[b.dataset.act]();
   });
 
