@@ -28,6 +28,7 @@ test.describe('opening the journal', () => {
     expect(await letters(page.locator('.cover-title'))).toBe('cafelog');
     await expect(page.locator('.cover-title .rl')).toHaveCount(7);
     await expect(page.locator('.page-count')).toHaveText('cover');
+    await expect(page.locator('#book')).not.toContainText('swipe or tap'); // no hint on the cover
     expect(errors).toEqual([]);
   });
 

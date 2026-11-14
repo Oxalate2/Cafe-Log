@@ -61,9 +61,7 @@
     const leaf = el(`<div class="leaf cover" style="--c:${PASTELS[cover.color] || PASTELS.pink}">
       <div class="cover-title ransom">${titleHtml()}</div>
       ${cover.photo ? `<div class="ph cover-photo${mode === 'decorate' && selCoverPhoto ? ' sel' : ''}" style="left:${coverPhotoFx().x}%;top:${coverPhotoFx().y}%;transform:${coverPhotoTransform()}"><img src="${cover.photo}" alt=""></div>` : ''}
-      ${cover.stickers.map(s => Stickers.html(s, mode === 'decorate' && s.id === selSticker)).join('')}
-      ${mode === 'decorate' ? '' : '<div class="cover-hint">swipe or tap to open →</div>'}
-    </div>`);
+      ${cover.stickers.map(s => Stickers.html(s, mode === 'decorate' && s.id === selSticker)).join('')}    </div>`);
     return leaf;
   }
 

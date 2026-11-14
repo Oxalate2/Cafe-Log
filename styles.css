@@ -179,15 +179,6 @@ input, textarea { -webkit-user-select: text; user-select: text; }
   height: 60cqw;
   transform: translate(-50%, -50%) rotate(-3deg);
 }
-.cover-hint {
-  position: absolute;
-  bottom: 3cqh;
-  left: 0;
-  right: 0;
-  text-align: center;
-  font-size: 5cqw;
-  opacity: .65;
-}
 .sticker {
   position: absolute;
   z-index: 4;
