@@ -1,2 +1,7 @@
 # local editor / Claude settings
 .claude/
+
+# test tools
+node_modules/
+test-results/
+playwright-report/

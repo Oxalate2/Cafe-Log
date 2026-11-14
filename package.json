@@ -1,0 +1,14 @@
+{
+  "name": "cafe-log",
+  "private": true,
+  "description": "Cafe Log journal app. The app itself is plain HTML/CSS/JS; this file only holds the test tools.",
+  "scripts": {
+    "serve": "node tools/serve.js",
+    "test": "playwright test",
+    "test:update-screens": "playwright test tests/visual.spec.js --update-snapshots",
+    "test:report": "playwright show-report"
+  },
+  "devDependencies": {
+    "@playwright/test": "1.65.1"
+  }
+}
