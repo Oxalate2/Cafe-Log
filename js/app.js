@@ -300,22 +300,29 @@
     book.append(stub, piece);
 
     tearSound();
-    const rip = piece.animate([
-      { transform: 'none' },
-      { transform: 'translate(1%, -.5%) rotate(1deg)', offset: .15 },
-      { transform: 'translate(.5%, 0) rotate(.4deg)', offset: .25 },
-      { transform: 'translate(3%, -1%) rotate(3deg)', offset: .45 },
-      { transform: 'translate(2.5%, -.5%) rotate(2.4deg)', offset: .55 },
-      { transform: 'translate(6%, -2%) rotate(6deg)' },
-    ], { duration: 650, easing: 'ease-in', fill: 'forwards' });
-    await rip.finished;
-    await piece.animate([
-      { transform: 'translate(6%, -2%) rotate(6deg)', opacity: 1 },
-      { transform: 'translate(75%, 25%) rotate(32deg) scale(.85)', opacity: 0 },
-    ], { duration: 520, easing: 'cubic-bezier(.4,0,.8,.4)', fill: 'forwards' }).finished;
-    await stub.animate([{ opacity: 1 }, { opacity: 0 }], { duration: 450, delay: 250, fill: 'forwards' }).finished;
-    stub.remove(); piece.remove();
-    anim = false;
+    const play = async () => {
+      await piece.animate([
+        { transform: 'none' },
+        { transform: 'translate(1%, -.5%) rotate(1deg)', offset: .15 },
+        { transform: 'translate(.5%, 0) rotate(.4deg)', offset: .25 },
+        { transform: 'translate(3%, -1%) rotate(3deg)', offset: .45 },
+        { transform: 'translate(2.5%, -.5%) rotate(2.4deg)', offset: .55 },
+        { transform: 'translate(6%, -2%) rotate(6deg)' },
+      ], { duration: 650, easing: 'ease-in', fill: 'forwards' }).finished;
+      await piece.animate([
+        { transform: 'translate(6%, -2%) rotate(6deg)', opacity: 1 },
+        { transform: 'translate(75%, 25%) rotate(32deg) scale(.85)', opacity: 0 },
+      ], { duration: 520, easing: 'cubic-bezier(.4,0,.8,.4)', fill: 'forwards' }).finished;
+      await stub.animate([{ opacity: 1 }, { opacity: 0 }], { duration: 450, delay: 250, fill: 'forwards' }).finished;
+    };
+    // taps are ignored during the rip, so make sure it always ends (the page is already deleted;
+    // this only clears the animation) even if animations stall, e.g. the app is hidden mid-rip
+    try {
+      await Promise.race([play(), new Promise(r => setTimeout(r, 2600))]);
+    } finally {
+      stub.remove(); piece.remove();
+      anim = false;
+    }
   }
 
   function readImage(file, max) {
@@ -663,15 +670,26 @@
     const ms = Math.max(120, (duration || 520) * Math.abs(to - from));
     const t0 = performance.now();
     if (complete) flipSound();
-    const step = now => {
-      const t = Math.min(1, (now - t0) / ms);
-      const eased = t < 0.5 ? 2 * t * t : 1 - Math.pow(-2 * t + 2, 2) / 2;
-      flip.set(from + (to - from) * eased);
-      if (t < 1) return requestAnimationFrame(step);
+    let done = false;
+    const land = () => {
+      if (done) return;
+      done = true;
+      clearTimeout(safety);
       if (complete) pos = flip.target;
       anim = false;
       render();
     };
+    const step = now => {
+      if (done) return;
+      const t = Math.min(1, (now - t0) / ms);
+      const eased = t < 0.5 ? 2 * t * t : 1 - Math.pow(-2 * t + 2, 2) / 2;
+      flip.set(from + (to - from) * eased);
+      if (t < 1) return requestAnimationFrame(step);
+      land();
+    };
+    // Taps are ignored while a page turns, so a turn must always land. If animation frames stop
+    // (app hidden mid-turn, a frozen view), finish the turn anyway shortly after it should have ended.
+    const safety = setTimeout(land, ms + 400);
     requestAnimationFrame(step);
   }
 

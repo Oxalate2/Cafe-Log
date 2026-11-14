@@ -54,17 +54,30 @@ test.describe('opening the journal', () => {
 
   test('tapping "+ add a cafe" while the page is still turning is ignored', async ({ page }) => {
     await open(page);
-    // the blank page underneath already shows its button mid-flip; once the turning page has
-    // swung past, a finger can reach it. Tap it at that moment.
-    await page.evaluate(async () => {
+    // the blank page underneath already shows its button mid-flip, and once the turning page has
+    // swung past a finger can reach it. Tap it while the turn is in progress (right as it starts,
+    // so a slow, busy test machine can't let the turn finish first).
+    const tappedMidTurn = await page.evaluate(() => {
       document.querySelector('[data-act="next"]').click();
-      await new Promise(r => setTimeout(r, 300));
+      const turning = !!document.querySelector('#book .turner');
       document.querySelector('#book [data-act="new"]').click();
+      return turning;
     });
+    expect(tappedMidTurn).toBe(true);
     await expect(page.locator('#book .turner')).toHaveCount(0);
     await expect(page.locator('.page-count')).toHaveText('new page');
     await expect(act(page, 'save')).toHaveCount(0);            // not stuck editing the cover
     await act(page, 'new').click();                             // once the flip has landed it works
+    await expect(page.locator('#book .page.editing')).toBeVisible();
+  });
+
+  test('a page turn always lands, even if animation frames stop', async ({ page }) => {
+    await open(page);
+    // like an app hidden mid-turn: animation frames never arrive
+    await page.evaluate(() => { window.requestAnimationFrame = () => 0; });
+    await act(page, 'next').click();
+    await expect(page.locator('.page-count')).toHaveText('new page', { timeout: 3000 });
+    await act(page, 'new').click();                             // buttons are not left locked
     await expect(page.locator('#book .page.editing')).toBeVisible();
   });
 
