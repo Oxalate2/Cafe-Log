@@ -1,6 +1,6 @@
 // Browser tests: use the app the way a person would, then check what it shows and what it saved.
 const { test } = require('@playwright/test');
-const { open, act, photo, toBlankPage, tapAt, addCafe, stored, relBox, expect } = require('./helpers');
+const { open, act, save, photo, toBlankPage, tapAt, addCafe, stored, relBox, expect } = require('./helpers');
 
 const letters = loc => loc.evaluate(n => n.textContent.toLowerCase().replace(/\s+/g, ''));
 
@@ -166,7 +166,7 @@ test.describe('cafe pages', () => {
     await setRange(page, '#ph-size', 1.3);
     await setRange(page, '#ph-rot', -12);
     await act(page, 'photo-done').click();
-    await act(page, 'save').click();
+    await save(page);
     const t = await page.locator('#book .ph[data-pi="1"]').evaluate(n => n.style.transform);
     expect(t).toBe('rotate(-12deg) scale(1.3)');
     const { entries } = await stored(page);
@@ -243,7 +243,7 @@ test.describe('page stickers', () => {
     const after = await relBox(page, '#book .sticker');
     expect(after.y).toBeGreaterThan(before.y + 3);
     await act(page, 'stickers-done').click();
-    await act(page, 'save').click();
+    await save(page);
     await expect(page.locator('#book .sticker')).toHaveCount(2);
     const { entries } = await stored(page);
     expect(entries[0].stickers.map(s => s.k)).toEqual(['e:🍓', 'w:pink-dots']);
@@ -267,7 +267,7 @@ test.describe('page stickers', () => {
     });
     expect(fits).toBe(true);
     await act(page, 'stickers-done').click();
-    await act(page, 'save').click();
+    await save(page);
     const savedSticker = await relBox(page, '#book .sticker');
     const savedPhoto = await relBox(page, '#book .ph[data-pi="0"]');
     for (const k of ['x', 'y', 'w']) {

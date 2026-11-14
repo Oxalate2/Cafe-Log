@@ -75,8 +75,14 @@ async function addCafe(page, { name = 'Hop Cafe', city = 'Arcadia', drink = 'ice
   }
   if (rating) await tapAt(page, page.locator('#book .stars'), (rating - 0.25) / 5);
   if (color) await page.locator(`#book .dot[data-color="${color}"]`).click();
+  await save(page);
+}
+
+// tap done and wait until the page is stored and redrawn (saving is async, slower on a busy machine)
+async function save(page) {
   await act(page, 'save').click();
   await expect(page.locator('#book .page.editing')).toHaveCount(0);
+  await expect(act(page, 'edit')).toBeVisible();
 }
 
 // everything saved in the browser's storage
@@ -100,4 +106,4 @@ async function relBox(page, selector) {
   }, selector);
 }
 
-module.exports = { TODAY, open, ready, act, photo, toBlankPage, tapAt, addCafe, stored, relBox, expect };
+module.exports = { TODAY, open, ready, act, save, photo, toBlankPage, tapAt, addCafe, stored, relBox, expect };
