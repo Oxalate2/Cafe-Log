@@ -183,6 +183,25 @@ test.describe('cafe pages', () => {
     expect((await stored(page)).entries[0].city).toBe('Arcadia');
   });
 
+  test('notes get only as many lines as the writing needs', async ({ page }) => {
+    await open(page);
+    const lines = () => page.locator('#book .notes textarea').evaluate(t => Math.round(t.clientHeight / parseFloat(getComputedStyle(t).lineHeight)));
+    await addCafe(page, { notes: 'cosy corner seat', photos: 0 });
+    expect(await lines()).toBe(1);
+    await act(page, 'edit').click();
+    const notes = page.locator('[data-f="notes"]');
+    await notes.fill('a long note that keeps going so it wraps over more than one line, and then some more words to make a third line maybe');
+    const typed = await lines();
+    expect(typed).toBeGreaterThanOrEqual(3);
+    await save(page);
+    expect(await lines()).toBe(typed);
+    await act(page, 'edit').click();
+    await notes.fill('');
+    expect(await lines()).toBe(1);             // one line to write on while editing
+    await save(page);
+    await expect(page.locator('#book .notes')).toBeHidden(); // nothing at all on the saved page
+  });
+
   test('pages are kept in visit-date order', async ({ page }) => {
     await open(page);
     await addCafe(page, { name: 'Later Cafe', date: '2026-10-20', photos: 0 });

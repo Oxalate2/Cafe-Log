@@ -426,8 +426,10 @@ button.ph.empty { font-family: inherit; cursor: pointer; }
 
 /* notes */
 .notes { flex: 1; min-height: 0; display: flex; flex-direction: column; gap: 1cqw; align-items: flex-start; }
+.notes.empty { display: none; }
 .notes textarea {
-  flex: 1;
+  flex: 0 1 auto;       /* height set by fitNotes() to the lines the text needs; shrinks to scroll if the page runs out */
+  min-height: 0;
   resize: none;
   line-height: 7.4cqw;
   border-bottom: 0 !important;

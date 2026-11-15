@@ -921,6 +921,26 @@
   }
   window.addEventListener('resize', () => { if (bookLock) applyBookLock(); });
 
+  // Notes only get as many ruled lines as the writing needs (one to write on while editing,
+  // none on a saved page with no notes). Sized in cqw so it keeps following the book's size.
+  function fitNotes() {
+    book.querySelectorAll('.notes textarea').forEach(ta => {
+      const editing = !!ta.closest('.editing');
+      const box = ta.closest('.notes');
+      box.classList.toggle('empty', !editing && !ta.value.trim());
+      const lh = parseFloat(getComputedStyle(ta).lineHeight);
+      if (!lh) return;
+      ta.style.height = '0';
+      let n = ta.value ? Math.round(ta.scrollHeight / lh) : 0;
+      if (editing) n = Math.max(1, n);
+      ta.style.height = `calc(${n} * 7.4cqw)`;
+    });
+  }
+  new MutationObserver(fitNotes).observe(book, { childList: true, subtree: true });
+  book.addEventListener('input', e => { if (e.target.matches('.notes textarea')) fitNotes(); });
+  window.addEventListener('resize', fitNotes);
+  document.fonts.ready.then(fitNotes);
+
   const actions = {
     contents: openContents,
     'close-contents': () => { $('#contents').hidden = true; },
