@@ -243,12 +243,28 @@ test.describe('tear out', () => {
 });
 
 test.describe('page stickers', () => {
+  test('food, drink and animal emoji have their own tabs', async ({ page }) => {
+    await open(page);
+    await addCafe(page, { photos: 0 });
+    await act(page, 'edit').click();
+    await act(page, 'page-stickers').click();
+    for (const [tab, some, count] of [['food', '🥟', 100], ['drinks', '🧋', 20], ['animals', '🦦', 120]]) {
+      await page.locator(`[data-sticker-tab="${tab}"]`).click();
+      expect(await page.locator('.sticker-pick button').count()).toBeGreaterThanOrEqual(count);
+      await page.locator(`[data-sticker="e:${some}"]`).click();
+      await act(page, 'sticker-done').click();
+    }
+    await act(page, 'stickers-done').click();
+    await save(page);
+    expect((await stored(page)).entries[0].stickers.map(s => s.k)).toEqual(['e:🥟', 'e:🧋', 'e:🦦']);
+  });
+
   test('cute and washi stickers can be added, sized, turned and moved', async ({ page }) => {
     await open(page);
     await addCafe(page);
     await act(page, 'edit').click();
     await act(page, 'page-stickers').click();
-    await expect(page.locator('[data-sticker-tab]')).toHaveText(['cute', 'washi tape']); // no junk journal tab
+    await expect(page.locator('[data-sticker-tab]')).toHaveText(['cute', 'food', 'drinks', 'animals', 'washi tape']); // no junk journal tab
     await page.locator('[data-sticker="e:🍓"]').click();
     await setRange(page, '#st-size', 1.8);
     await setRange(page, '#st-rot', 30);

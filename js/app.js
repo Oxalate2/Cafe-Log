@@ -22,7 +22,7 @@
   let selSticker = null;
   let selLetter = null;   // index of the cover-title letter being styled
   let stickerMode = false; // sticker drawer open while editing a page
-  let stickerTab = 'cute'; // cute | washi
+  let stickerTab = 'cute'; // cute | food | drinks | animals | washi
   let selPhoto = null;     // index of the page photo being resized / tilted
   let selCoverPhoto = false; // cover photo being resized / tilted
   const coverPhotoFx = () => ({ size: 1, rot: -3, x: 50, y: 56, ...(cover.photoFx || {}) });
@@ -398,7 +398,7 @@
       </div>
       <label class="decor-row slider"><span class="tag">size</span><input type="range" id="st-size" min="0.4" max="3" step="0.05" value="${s.size || 1}"></label>
       <label class="decor-row slider"><span class="tag blue">turn</span><input type="range" id="st-rot" min="-180" max="180" step="1" value="${s.rot || 0}"></label>` : '';
-    const tabs = { cute: 'cute', washi: 'washi tape' };
+    const tabs = { cute: 'cute', food: 'food', drinks: 'drinks', animals: 'animals', washi: 'washi tape' };
     if (!tabs[stickerTab]) stickerTab = 'cute';
     return `${controls}
       <div class="decor-row">

@@ -1,10 +1,41 @@
-// Sticker catalog: cute emoji, washi tape strips and junk-journal bits.
+// Sticker catalog: cute emoji, food / drink / animal emoji, washi tape strips and junk-journal bits.
 // A sticker is stored as { id, k, x, y, rot, size } where k is a key from this catalog.
 // Older cover stickers were stored as { ch: '☕' }; those still work as 'e:☕'.
 const Stickers = (() => {
   const esc = s => s.replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
 
   const CUTE = ['☕', '🥤', '🍵', '🥐', '🍰', '🍩', '🧁', '🍪', '🍓', '🌸', '🌷', '⭐', '✨', '💗', '🎀', '🐈', '🍋', '🍮','🌼', '🍒'];
+
+  // Every food, drink and animal emoji (Unicode 15.1, shown on iPhone/iPad with iOS 17.4 or newer).
+  const FOOD = [
+    // fruit
+    '🍇', '🍈', '🍉', '🍊', '🍋', '🍋‍🟩', '🍌', '🍍', '🥭', '🍎', '🍏', '🍐', '🍑', '🍒', '🍓', '🫐', '🥝', '🍅', '🫒', '🥥',
+    // vegetables
+    '🥑', '🍆', '🥔', '🥕', '🌽', '🌶️', '🫑', '🥒', '🥬', '🥦', '🧄', '🧅', '🍄', '🍄‍🟫', '🥜', '🫘', '🌰', '🫚', '🫛',
+    // prepared
+    '🍞', '🥐', '🥖', '🫓', '🥨', '🥯', '🥞', '🧇', '🧀', '🍖', '🍗', '🥩', '🥓', '🍔', '🍟', '🍕', '🌭', '🥪', '🌮', '🌯',
+    '🫔', '🥙', '🧆', '🥚', '🍳', '🥘', '🍲', '🫕', '🥣', '🥗', '🍿', '🧈', '🧂', '🥫',
+    // asian
+    '🍱', '🍘', '🍙', '🍚', '🍛', '🍜', '🍝', '🍠', '🍢', '🍣', '🍤', '🍥', '🥮', '🍡', '🥟', '🥠', '🥡', '🦪',
+    // sweets
+    '🍦', '🍧', '🍨', '🍩', '🍪', '🎂', '🍰', '🧁', '🥧', '🍫', '🍬', '🍭', '🍮', '🍯',
+  ];
+  const DRINKS = ['☕', '🫖', '🍵', '🧋', '🥤', '🧃', '🧉', '🥛', '🍼', '🍶', '🍾', '🍷', '🍸', '🍹', '🍺', '🍻', '🥂', '🥃', '🫗', '🧊'];
+  const ANIMALS = [
+    // mammals
+    '🐵', '🐒', '🦍', '🦧', '🐶', '🐕', '🦮', '🐕‍🦺', '🐩', '🐺', '🦊', '🦝', '🐱', '🐈', '🐈‍⬛', '🦁', '🐯', '🐅', '🐆', '🐴',
+    '🫎', '🫏', '🐎', '🦄', '🦓', '🦌', '🦬', '🐮', '🐂', '🐃', '🐄', '🐷', '🐖', '🐗', '🐽', '🐏', '🐑', '🐐', '🐪', '🐫',
+    '🦙', '🦒', '🐘', '🦣', '🦏', '🦛', '🐭', '🐁', '🐀', '🐹', '🐰', '🐇', '🐿️', '🦫', '🦔', '🦇', '🐻', '🐻‍❄️', '🐨', '🐼',
+    '🦥', '🦦', '🦨', '🦘', '🦡', '🐾',
+    // birds
+    '🦃', '🐔', '🐓', '🐣', '🐤', '🐥', '🐦', '🐧', '🕊️', '🦅', '🦆', '🦢', '🦉', '🦤', '🦩', '🦚', '🦜', '🐦‍⬛', '🪿', '🐦‍🔥',
+    // amphibians and reptiles
+    '🐸', '🐊', '🐢', '🦎', '🐍', '🐲', '🐉', '🦕', '🦖',
+    // sea
+    '🐳', '🐋', '🐬', '🦭', '🐟', '🐠', '🐡', '🦈', '🐙', '🦑', '🦐', '🦞', '🦀', '🪼', '🐚',
+    // bugs
+    '🐌', '🦋', '🐛', '🐜', '🐝', '🪲', '🐞', '🦗', '🪳', '🕷️', '🦂', '🦟', '🪰', '🪱',
+  ];
 
   // washi: [key, tape colour, pattern]
   const WASHI = [
@@ -36,6 +67,9 @@ const Stickers = (() => {
 
   const SETS = {
     cute: CUTE.map(c => 'e:' + c),
+    food: FOOD.map(c => 'e:' + c),
+    drinks: DRINKS.map(c => 'e:' + c),
+    animals: ANIMALS.map(c => 'e:' + c),
     washi: WASHI.map(w => 'w:' + w[0]),
     junk: JUNK.map(j => 'j:' + j[0]),
   };
