@@ -386,6 +386,10 @@
   const saveStickers = () => { if (mode === 'decorate') saveCover(); };  // page stickers save with "done"
   const selectedSticker = () => (activeStickers() || []).find(s => s.id === selSticker);
 
+  // each sticker tab is a strip of washi tape in its own colour
+  const TAB_TAPE = { food: '#fdd3ae', drinks: '#bcdcf5', animals: '#c5e6c8', hearts: '#f9c6d3', flowers: '#f4b7c8', sky: '#cfe3f7', other: '#e2d4f2', washi: '#e3c9a3' };
+  const TAB_TILT = [-3, 2, -1.5, 3, -2.5, 1.5, -2, 2.5];
+
   function stickerPanel() {
     const s = selectedSticker();
     const controls = s ? `
@@ -403,7 +407,7 @@
     return `${controls}
       <div class="decor-row">
         ${s ? '' : '<span class="tag orange">stickers</span>'}
-        ${Object.entries(tabs).map(([k, label]) => `<button class="tab-btn${stickerTab === k ? ' on' : ''}" data-sticker-tab="${k}">${label}</button>`).join('')}
+        ${Object.entries(tabs).map(([k, label], i) => `<button class="tab-btn${stickerTab === k ? ' on' : ''}" data-sticker-tab="${k}" style="--p:${TAB_TAPE[k]};--tilt:${TAB_TILT[i % TAB_TILT.length]}deg">${label}</button>`).join('')}
       </div>
       <div class="sticker-pick pick-${stickerTab}">${Stickers.SETS[stickerTab].map(k => `<button data-sticker="${esc(k)}" aria-label="add sticker"><span class="prev">${Stickers.inner(k)}</span></button>`).join('')}</div>`;
   }
