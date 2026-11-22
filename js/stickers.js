@@ -70,10 +70,11 @@ const Stickers = (() => {
   ];
 
   const SETS = {
-    cute: CUTE.map(c => 'e:' + c),
     hearts: HEARTS.map(c => 'e:' + c),
     flowers: FLOWERS.map(c => 'e:' + c),
     sky: SKY.map(c => 'e:' + c),
+    // anything not already in another tab (⭐ and ⭐️ count as the same)
+    other: CUTE.filter(c => ![...FOOD, ...DRINKS, ...ANIMALS, ...HEARTS, ...FLOWERS, ...SKY].some(o => o.replace(/️/g, '') === c.replace(/️/g, ''))).map(c => 'e:' + c),
     food: FOOD.map(c => 'e:' + c),
     drinks: DRINKS.map(c => 'e:' + c),
     animals: ANIMALS.map(c => 'e:' + c),

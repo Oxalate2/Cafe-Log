@@ -54,6 +54,7 @@ test.describe('screens', () => {
   test('decorating the cover', async ({ page }) => {
     await open(page);
     await act(page, 'decorate').click();
+    await page.locator('[data-sticker-tab="flowers"]').click();
     await page.locator('[data-sticker="e:🌸"]').click();
     await act(page, 'sticker-done').click();
     await shot(page, '07-decorate');

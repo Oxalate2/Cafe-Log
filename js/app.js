@@ -22,7 +22,7 @@
   let selSticker = null;
   let selLetter = null;   // index of the cover-title letter being styled
   let stickerMode = false; // sticker drawer open while editing a page
-  let stickerTab = 'cute'; // cute | hearts | flowers | sky | food | drinks | animals | washi
+  let stickerTab = 'food'; // food | drinks | animals | hearts | flowers | sky | other | washi
   let selPhoto = null;     // index of the page photo being resized / tilted
   let selCoverPhoto = false; // cover photo being resized / tilted
   const coverPhotoFx = () => ({ size: 1, rot: -3, x: 50, y: 56, ...(cover.photoFx || {}) });
@@ -398,14 +398,13 @@
       </div>
       <label class="decor-row slider"><span class="tag">size</span><input type="range" id="st-size" min="0.4" max="3" step="0.05" value="${s.size || 1}"></label>
       <label class="decor-row slider"><span class="tag blue">turn</span><input type="range" id="st-rot" min="-180" max="180" step="1" value="${s.rot || 0}"></label>` : '';
-    const tabs = { cute: 'cute', hearts: 'hearts', flowers: 'flowers', sky: 'sky', food: 'food', drinks: 'drinks', animals: 'animals', washi: 'washi tape' };
-    if (!tabs[stickerTab]) stickerTab = 'cute';
+    const tabs = { food: 'food', drinks: 'drinks', animals: 'animals', hearts: 'hearts', flowers: 'flowers', sky: 'sky', other: 'other', washi: 'washi tape' };
+    if (!tabs[stickerTab]) stickerTab = 'food';
     return `${controls}
       <div class="decor-row">
         ${s ? '' : '<span class="tag orange">stickers</span>'}
         ${Object.entries(tabs).map(([k, label]) => `<button class="tab-btn${stickerTab === k ? ' on' : ''}" data-sticker-tab="${k}">${label}</button>`).join('')}
       </div>
-      ${s ? '' : '<div class="decor-row"><span class="help">tap one to add it, then drag it where you like</span></div>'}
       <div class="sticker-pick pick-${stickerTab}">${Stickers.SETS[stickerTab].map(k => `<button data-sticker="${esc(k)}" aria-label="add sticker"><span class="prev">${Stickers.inner(k)}</span></button>`).join('')}</div>`;
   }
 

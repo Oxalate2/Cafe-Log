@@ -248,7 +248,7 @@ test.describe('page stickers', () => {
     await addCafe(page, { photos: 0 });
     await act(page, 'edit').click();
     await act(page, 'page-stickers').click();
-    for (const [tab, some, count] of [['food', '🥟', 100], ['drinks', '🧋', 20], ['animals', '🦦', 120], ['hearts', '🩵', 13], ['flowers', '🪷', 15], ['sky', '🫧', 16], ['cute', '🪩', 28]]) {
+    for (const [tab, some, count] of [['food', '🥟', 100], ['drinks', '🧋', 20], ['animals', '🦦', 120], ['hearts', '🩵', 13], ['flowers', '🪷', 15], ['sky', '🫧', 16], ['other', '🪩', 9]]) {
       await page.locator(`[data-sticker-tab="${tab}"]`).click();
       expect(await page.locator('.sticker-pick button').count()).toBeGreaterThanOrEqual(count);
       await page.locator(`[data-sticker="e:${some}"]`).click();
@@ -264,7 +264,7 @@ test.describe('page stickers', () => {
     await addCafe(page);
     await act(page, 'edit').click();
     await act(page, 'page-stickers').click();
-    await expect(page.locator('[data-sticker-tab]')).toHaveText(['cute', 'hearts', 'flowers', 'sky', 'food', 'drinks', 'animals', 'washi tape']); // no junk journal tab
+    await expect(page.locator('[data-sticker-tab]')).toHaveText(['food', 'drinks', 'animals', 'hearts', 'flowers', 'sky', 'other', 'washi tape']); // no junk journal tab
     await page.locator('[data-sticker="e:🍓"]').click();
     await setRange(page, '#st-size', 1.8);
     await setRange(page, '#st-rot', 30);
@@ -331,6 +331,7 @@ test.describe('cover', () => {
     await act(page, 'decorate').click();
     await page.locator('[data-cover-color="blue"]').click();
     await page.locator('#title-in').fill('carol\'s cafes');
+    await page.locator('[data-sticker-tab="drinks"]').click();
     await page.locator('[data-sticker="e:☕"]').click();
     await setRange(page, '#st-size', 2);
     await act(page, 'decor-done').click();
