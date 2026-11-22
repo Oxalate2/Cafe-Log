@@ -4,7 +4,11 @@
 const Stickers = (() => {
   const esc = s => s.replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
 
-  const CUTE = ['☕', '🥤', '🍵', '🥐', '🍰', '🍩', '🧁', '🍪', '🍓', '🌸', '🌷', '⭐', '✨', '💗', '🎀', '🐈', '🍋', '🍮','🌼', '🍒'];
+  const CUTE = ['☕', '🥤', '🍵', '🥐', '🍰', '🍩', '🧁', '🍪', '🍓', '🌸', '🌷', '⭐', '✨', '💗', '🎀', '🐈', '🍋', '🍮','🌼', '🍒',
+    '🎃', '💋', '👅', '👀', '🧚🏼‍♀️', '💃🏻', '🪽', '🪩'];
+  const HEARTS = ['💌', '🩷', '❤️', '🧡', '💛', '💚', '🩵', '💙', '💜', '🖤', '🩶', '🤍', '🤎', '💗'];
+  const FLOWERS = ['💐', '🌷', '🌹', '🪷', '🌺', '🌸', '🌼', '🌻', '🌱', '☘️', '🍀', '🎋', '🍁', '🪸', '🪨'];
+  const SKY = ['☀️', '🌞', '🌝', '🌚', '🌙', '⭐️', '🌟', '💫', '✨', '💥', '🔥', '🌈', '☁️', '❄️', '🫧', '🌊'];
 
   // Every food, drink and animal emoji (Unicode 15.1, shown on iPhone/iPad with iOS 17.4 or newer).
   const FOOD = [
@@ -67,6 +71,9 @@ const Stickers = (() => {
 
   const SETS = {
     cute: CUTE.map(c => 'e:' + c),
+    hearts: HEARTS.map(c => 'e:' + c),
+    flowers: FLOWERS.map(c => 'e:' + c),
+    sky: SKY.map(c => 'e:' + c),
     food: FOOD.map(c => 'e:' + c),
     drinks: DRINKS.map(c => 'e:' + c),
     animals: ANIMALS.map(c => 'e:' + c),
