@@ -97,7 +97,13 @@ input, textarea { -webkit-user-select: text; user-select: text; }
 
 .leaf, .underwrap, .turner, .face { position: absolute; inset: 0; }
 
+/* Each page is its own layer, so its stickers (z-index 4) stay printed on it. Without this they
+   stack against the whole book and the next page's stickers show through the page being turned. */
+.underwrap { z-index: 0; }
+.turner { z-index: 1; }
+
 .leaf {
+  isolation: isolate;
   container-type: size;
   border-radius: 4px 14px 14px 4px;
   overflow: hidden;
@@ -108,7 +114,8 @@ input, textarea { -webkit-user-select: text; user-select: text; }
   transform-style: preserve-3d;
   will-change: transform;
 }
-.face { backface-visibility: hidden; -webkit-backface-visibility: hidden; }
+/* the front face needs its own 3D transform too, or Safari lets its stickers show through the back */
+.face { backface-visibility: hidden; -webkit-backface-visibility: hidden; transform: rotateY(0deg); }
 .face.back {
   transform: rotateY(180deg);
   background: var(--paper);
